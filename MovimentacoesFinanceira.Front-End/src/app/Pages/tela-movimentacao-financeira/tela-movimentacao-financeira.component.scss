@@ -1,3 +1,5 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
 .container {
   margin: 20px;
 }
@@ -179,4 +181,41 @@ button.mat-button {
 
 .black {
   color: black;
+}
+
+/* Estilização para o container do input */
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 300px; /* Ajuste o tamanho conforme necessário */
+}
+
+/* Estilização para o input de pesquisa */
+.search-input {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+  flex: 1;
+}
+
+/* Estilização para o botão de pesquisa */
+.search-button {
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px;
+  color: #555;
+}
+
+/* Efeito de hover no botão de pesquisa */
+.search-button:hover {
+  color: #000;
 }

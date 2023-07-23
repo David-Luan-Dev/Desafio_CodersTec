@@ -6,6 +6,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ILojaTransacoes, TipoTransacoesEnum, transacoesFinanceira } from 'src/app/Interface/ILojaTransacoes';
 import { MovimentacoesFinanceiraService } from 'src/app/services/movimentacoes.service';
+import { TIPO_TRANSACAO_OPTIONS } from 'src/app/shared/utils/const/tipo-transacao'
 
 
 @Component({
@@ -22,6 +23,8 @@ import { MovimentacoesFinanceiraService } from 'src/app/services/movimentacoes.s
 
 })
 export class TelaMovimentacaoFinanceiraComponent implements OnInit {
+  filtroNome: string = '';
+  filtroTipoModal!: string;
   selectedFileName!: string;
   dataSource: MatTableDataSource<ILojaTransacoes> = new MatTableDataSource<ILojaTransacoes>([]);
   displayedColumns: string[] = ['lojaId', 'nomeDaLoja', 'donoDaLoja', 'total', 'acao'];
@@ -31,6 +34,8 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
     'idTransacao', 'lojaId', 'donoDaLoja', 'nomeDaLoja', 'tipo', 'data_Ocorrencia', 'valor',
     'cpf', 'cartao', 'hora_Ocorrencia'
   ];
+
+  readonly TIPO_TRANSACAO_OPTIONS = TIPO_TRANSACAO_OPTIONS
 
   @ViewChild('modalTemplate', { static: true }) modalTemplate!: TemplateRef<any>;
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
@@ -52,6 +57,19 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
     this.movimentacoesFinanceiraService.getAllMovimentacoes().subscribe((lojas) => {
       this.dataSource = new MatTableDataSource(lojas.data);
     });
+  }
+
+  pesquisarPeloNomeDaLoja() {
+    if (this.filtroNome != null) {
+      this.filtroNome = this.filtroNome.trim(); // Remove whitespace
+      this.filtroNome = this.filtroNome.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+      this.dataSource.filter = this.filtroNome;
+    }
+  }
+
+  pesquisarPeloNomeDaLojaModal() {
+    this.subTableDataSource.filterPredicate = (data: transacoesFinanceira, filter: string) => data.tipo.toString().indexOf(filter) != -1;
+    this.subTableDataSource.filter = this.filtroTipoModal.toString();
   }
 
   getTipoTransacao(tipo: TipoTransacoesEnum): string {
@@ -150,6 +168,9 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
       maxWidth: '100%',
       height: '90vh',
       width: '95vw'
+    }).afterClosed().subscribe(() => {
+      this.subTableDataSource = new MatTableDataSource();
+      this.filtroTipoModal = '';
     })
   }
 

@@ -11,7 +11,13 @@
       <mat-icon>clear</mat-icon>
     </button>
   </div>
-
+  <div class="search-container">
+    <input type="text" [(ngModel)]="filtroNome" (change)="pesquisarPeloNomeDaLoja()" class="search-input"
+      placeholder="Nome da loja ou do dono" />
+    <button class="search-button">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
   <!-- transacoes.component.html -->
 
   <div class="table-container">
@@ -75,6 +81,16 @@
     <div class="modal-content">
       <!-- Sub Tabela -->
       <h3 class="sub-table-title">Detalhes das Transações</h3>
+
+      <mat-form-field style="width: 30%;">
+        <mat-label>Pesquisar por tipo de transação</mat-label>
+        <mat-select (selectionChange)="pesquisarPeloNomeDaLojaModal()" [(ngModel)]="filtroTipoModal">
+          <mat-option *ngFor="let item of TIPO_TRANSACAO_OPTIONS" [value]="item.tipo">
+            {{item.nome}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <table mat-table [dataSource]="subTableDataSource" class="mat-elevation-z2">
 
         <!-- Colunas da Sub Tabela -->
