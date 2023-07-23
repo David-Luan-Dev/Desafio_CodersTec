@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ILojaTransacoes, TipoTransacoesEnum, transacoesFinanceira } from 'src/app/Interface/ILojaTransacoes';
 import { MovimentacoesFinanceiraService } from 'src/app/services/movimentacoes.service';
 import { TIPO_TRANSACAO_OPTIONS } from 'src/app/shared/utils/const/tipo-transacao'
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -103,7 +104,13 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
             this.open(response.Mensage, 'Fechar')
           }
         },
-        error: (err: any) => { this.open("Ocorreu um erro, tente novamente", 'Fechar') }
+        error: (err: any) => {
+          if (err.status === 400) {
+            this.open(err.error.mensagem, 'Fechar')
+          } else {
+            this.open("Ocorreu um erro, tente novamente", 'Fechar')
+          }
+        }
       });
   }
 
