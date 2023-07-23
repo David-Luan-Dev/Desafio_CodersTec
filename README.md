@@ -1,4 +1,4 @@
-## Aplicação de Exemplo: Calculadora de Investimento CDB
+## Aplicação de Exemplo: Movimentações financeiras das lojas.
 Esta é uma aplicação de exemplo que combina o Angular e o .NET CORE 6.0 para criar uma calculadora de investimento em **(Movimentações financeiras das lojas)**. A aplicação começa com upload do arquivo que foi disponibilizado pelo desafio, chamado **CNAB.txt**. Apos o upload do arquivo, ela vai te dar um resumo das informações de todas as transações e tipo usada por cada loja, sera salvo no banco de dados e exibido na tabela, para vc ver com mais clareza. 
 
 ![](https://yourimageshare.com/ib/fqGBUQtvN0.webp)
