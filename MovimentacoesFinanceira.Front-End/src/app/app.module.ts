@@ -22,6 +22,8 @@ import { TelaMovimentacaoFinanceiraComponent } from './Pages/tela-movimentacao-f
 import { AppRoutingModule } from './app-routing.module';
 import { CPFPipe } from './shared/pipe/cpf.pipe';
 import { registerLocaleData } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -42,8 +44,14 @@ import { registerLocaleData } from '@angular/common';
     MatSnackBarModule,
     MatIconModule,
     MatFormFieldModule,
+    FormsModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   providers: [
     {
