@@ -106,7 +106,8 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
         },
         error: (err: any) => {
           if (err.status === 400) {
-            this.open(err.error.mensagem, 'Fechar')
+            this.open(err.error.mensagem, 'Fechar');
+            this.clearFileSelection();
           } else {
             this.open("Ocorreu um erro, tente novamente", 'Fechar')
           }
