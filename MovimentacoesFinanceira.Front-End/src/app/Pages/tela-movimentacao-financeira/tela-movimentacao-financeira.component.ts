@@ -7,8 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ILojaTransacoes, TipoTransacoesEnum, transacoesFinanceira } from 'src/app/Interface/ILojaTransacoes';
 import { MovimentacoesFinanceiraService } from 'src/app/services/movimentacoes.service';
 import { TIPO_TRANSACAO_OPTIONS } from 'src/app/shared/utils/const/tipo-transacao'
-import { HttpErrorResponse } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-tela-movimentacao-financeira',
@@ -167,7 +165,6 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
     }
     return valorTotalDescontado;
   }
-
 
   openModal(transacao: ILojaTransacoes): void {
     this.selectedTransacao = transacao;
