@@ -1,0 +1,139 @@
+<div class="container">
+  <div class="custom-file-input-container">
+    <input type="file" (change)="onFileSelected($event)" onclick="this.value=null;" accept=".txt" id="fileInput"
+      #fileInput />
+    <label class="file-label" [class.file-selected]="selectedFileName">
+      <mat-icon class="icon">attach_file</mat-icon>
+      <span class="file-name">{{ selectedFileName || 'Selecione um arquivo' }}</span>
+    </label>
+    <mat-spinner *ngIf="IsLoading" diameter="24" class="spinner"></mat-spinner>
+    <button mat-icon-button *ngIf="selectedFileName" (click)="clearFileSelection()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+  <!-- transacoes.component.html -->
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Colunas da Tabela -->
+
+      <ng-container matColumnDef="lojaId">
+        <th mat-header-cell *matHeaderCellDef>Loja ID</th>
+        <td mat-cell *matCellDef="let transacao">{{ transacao.lojaId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nomeDaLoja">
+        <th mat-header-cell *matHeaderCellDef>Nome da Loja</th>
+        <td mat-cell *matCellDef="let transacao">{{ transacao.nomeDaLoja }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="donoDaLoja">
+        <th mat-header-cell *matHeaderCellDef>Dono da Loja</th>
+        <td mat-cell *matCellDef="let transacao">{{ transacao.donoDaLoja }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef>Saldo em conta</th>
+        <td mat-cell *matCellDef="let transacao" [ngClass]="{
+            'red': getTotalTransacoes(transacao.transacoesFinanceira) < 0 ,
+            'green' : getTotalTransacoes(transacao.transacoesFinanceira) > 0,
+            'black' : getTotalTransacoes(transacao.transacoesFinanceira) ===  0
+          }">
+          {{
+          getTotalTransacoes(transacao.transacoesFinanceira) | currency
+          :'BRL'}}</td>
+      </ng-container>
+
+      <!-- Ação para abrir a modal -->
+      <ng-container matColumnDef="acao">
+        <th mat-header-cell *matHeaderCellDef>Detalhes</th>
+        <td mat-cell *matCellDef="let transacao">
+          <button mat-icon-button (click)="openModal(transacao)" matTooltip="Detalhes das transações desta loja">
+            <mat-icon>info</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Coluna da soma -->
+      <ng-container matColumnDef="soma">
+        <th mat-header-cell *matHeaderCellDef>Total</th>
+        <td mat-cell *matCellDef="let loja">
+          {{ getTotalTransacoes(loja.transacoesFinanceira) }}
+        </td>
+      </ng-container>
+
+      <!-- Linhas da Tabela -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <ng-template #modalTemplate>
+    <div class="modal-content">
+      <!-- Sub Tabela -->
+      <h3 class="sub-table-title">Detalhes das Transações</h3>
+      <table mat-table [dataSource]="subTableDataSource" class="mat-elevation-z2">
+
+        <!-- Colunas da Sub Tabela -->
+        <ng-container matColumnDef="idTransacao">
+          <th mat-header-cell *matHeaderCellDef>ID Transação</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.idTransacao }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="lojaId">
+          <th mat-header-cell *matHeaderCellDef>ID Loja</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.lojaId }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="donoDaLoja">
+          <th mat-header-cell *matHeaderCellDef>Dono da Loja</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.donoDaLoja }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nomeDaLoja">
+          <th mat-header-cell *matHeaderCellDef>Nome da Loja</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.nomeDaLoja }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ getTipoTransacao(subTransacao.tipo) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="data_Ocorrencia">
+          <th mat-header-cell *matHeaderCellDef>Data de Ocorrência</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.data_Ocorrencia }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.valor | currency
+            :'BRL' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cpf">
+          <th mat-header-cell *matHeaderCellDef>Cpf</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.cpf | CPF }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="hora_Ocorrencia">
+          <th mat-header-cell *matHeaderCellDef>Hora da Ocorrência</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.hora_Ocorrencia }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cartao">
+          <th mat-header-cell *matHeaderCellDef>Cartão</th>
+          <td mat-cell *matCellDef="let subTransacao">{{ subTransacao.cartao }}</td>
+        </ng-container>
+
+        <!-- Linhas da Sub Tabela -->
+        <tr mat-header-row *matHeaderRowDef="subTableDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: subTableDisplayedColumns;"></tr>
+      </table>
+    </div>
+    <button mat-button (click)="closeModal()">Fechar</button>
+  </ng-template>
+</div>
