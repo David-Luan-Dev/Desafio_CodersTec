@@ -35,7 +35,7 @@ E como não poderia faltar nesta camada, tem as Interfaces, costumo dizer os fie
 
 ### Como Executar a Aplicação
 1. Certifique-se de ter o Node.js e o Angular CLI instalados em seu ambiente de desenvolvimento.
-2. Clone o repositório do projeto em sua máquina local através do comando `git clone https://github.com/diogomarv/B3`
+2. Clone o repositório do projeto em sua máquina local através do comando `git clone https://github.com/David-Luan-Dev/Desafio_CodersTec`
 3. Navegue para a pasta do projeto front-end (cd MovimentacoesFinanceira.Front-End) e execute o comando `npm install` ou `npm i` para instalar as dependências do projeto.
 4. Execute o comando `npm start` para iniciar o servidor de desenvolvimento do Angular.
 8. No back-end você precisa trocar a connection string, usando o banco de dados sql server. Local de alteração no arquivo, `appsettings.json`.
