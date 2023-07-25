@@ -8,7 +8,6 @@ import { ILojaTransacoes, TipoTransacoesEnum, transacoesFinanceira } from 'src/a
 import { MovimentacoesFinanceiraService } from 'src/app/services/movimentacoes.service';
 import { TIPO_TRANSACAO_OPTIONS } from 'src/app/shared/utils/const/tipo-transacao'
 
-
 @Component({
   selector: 'app-tela-movimentacao-financeira',
   templateUrl: './tela-movimentacao-financeira.component.html',
@@ -103,7 +102,14 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
             this.open(response.Mensage, 'Fechar')
           }
         },
-        error: (err: any) => { this.open("Ocorreu um erro, tente novamente", 'Fechar') }
+        error: (err: any) => {
+          if (err.status === 400) {
+            this.open(err.error.mensagem, 'Fechar');
+            this.clearFileSelection();
+          } else {
+            this.open("Ocorreu um erro, tente novamente", 'Fechar')
+          }
+        }
       });
   }
 
@@ -159,7 +165,6 @@ export class TelaMovimentacaoFinanceiraComponent implements OnInit {
     }
     return valorTotalDescontado;
   }
-
 
   openModal(transacao: ILojaTransacoes): void {
     this.selectedTransacao = transacao;
